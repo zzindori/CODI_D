@@ -1,0 +1,23 @@
+{
+  "version": "1.0",
+  "clothing_types": [
+    {
+      "id": "top",
+      "order": 1,
+      "display_name": {
+        "ko": "상의",
+        "en": "Top"
+      },
+      "prompt_token": "top"
+    },
+    {
+      "id": "bottom",
+      "order": 2,
+      "display_name": {
+        "ko": "하의",
+        "en": "Bottom"
+      },
+      "prompt_token": "bottom"
+    }
+  ]
+}

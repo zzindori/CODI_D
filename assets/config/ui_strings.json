@@ -1,0 +1,99 @@
+{
+  "version": "1.0",
+  "locale": "ko",
+  "strings": {
+    "app_name": "CODI_D",
+    
+    "setup": {
+      "title": "나의 기준 만들기",
+      "step1_title": "STEP 1: 기준 마네킹 선택",
+      "step1_description": "이 마네킹은 변하지 않는 기준점입니다.\n나중에 조금씩 진화할 수 있습니다.",
+      "step2_title": "STEP 2: 신체 정보 입력",
+      "step2_description": "수치는 시각적으로 보이지 않고 기록용으로만 사용됩니다.",
+      "create_button": "기준 생성하기",
+      "select_mannequin_error": "마네킹을 선택해주세요"
+    },
+    
+    "body_measurements": {
+      "height": "키 (cm)",
+      "weight": "체중 (kg)",
+      "shoulder_width": "어깨 너비 (cm)",
+      "chest": "가슴 둘레 (cm)",
+      "waist": "허리 둘레 (cm)",
+      "hip": "엉덩이 둘레 (cm)",
+      "validation_required": "입력해주세요",
+      "validation_number": "숫자를 입력해주세요"
+    },
+    
+    "home": {
+      "no_avatar": "아바타가 없습니다",
+      "stage_format": "스테이지 {level}: {name}",
+      "evolve_button": "아바타 진화하기",
+      "wardrobe_button": "옷장 관리",
+      "codi_button": "코디 만들기",
+      "history_button": "코디 히스토리",
+      "stat_clothes": "옷",
+      "stat_codi": "코디",
+      "stat_evolution": "진화"
+    },
+
+    "wardrobe": {
+      "title": "옷장",
+      "add_button": "옷 추가",
+      "empty": "옷이 없습니다",
+      "name_label": "옷 이름",
+      "type_label": "옷 타입",
+      "pick_photo": "사진 선택",
+      "save": "저장",
+      "processing": "추출 중...",
+      "add_success": "옷이 추가되었습니다",
+      "add_failed": "옷 추가에 실패했습니다",
+      "missing_fields": "이름, 타입, 사진을 모두 입력해주세요"
+    },
+
+    "codi": {
+      "title": "코디 만들기",
+      "select_top": "상의 선택",
+      "select_bottom": "하의 선택",
+      "create": "코디 생성",
+      "no_items": "상의/하의가 필요합니다",
+      "created": "코디가 생성되었습니다"
+    },
+
+    "score": {
+      "title": "코디 점수",
+      "min": "최소",
+      "max": "최대"
+    },
+
+    "evolve": {
+      "title": "실루엣 진화",
+      "description": "사진 1장으로 기준 실루엣을 아주 조금 조정합니다.",
+      "tip_full_body": "전신이 보이는 사진이 가장 좋습니다.",
+      "pick_photo": "사진 선택",
+      "take_photo": "카메라 촬영",
+      "processing": "진화 중...",
+      "success": "진화가 완료되었습니다",
+      "failed": "진화에 실패했습니다",
+      "no_image": "사진을 선택해주세요",
+      "try_again": "다시 선택",
+      "reference_title": "참고 사진",
+      "reference_empty": "아직 참고 사진이 없습니다"
+    },
+
+    "errors": {
+      "no_avatar": "아바타가 없습니다",
+      "mannequin_not_found": "마네킹을 찾을 수 없습니다",
+      "evolve_failed": "진화에 실패했습니다",
+      "clothing_type_not_found": "옷 타입을 찾을 수 없습니다",
+      "clothing_not_found": "옷을 찾을 수 없습니다",
+      "compose_failed": "코디 합성에 실패했습니다"
+    },
+    
+    "avatar_stage": {
+      "anchor": "Anchor Stage",
+      "silhouette": "Silhouette Evolution",
+      "layered": "Layer & Detail"
+    }
+  }
+}

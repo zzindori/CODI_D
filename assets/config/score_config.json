@@ -1,0 +1,95 @@
+{
+  "version": "1.0",
+  "score_items": [
+    {
+      "id": "color_harmony",
+      "order": 1,
+      "display_name": {
+        "ko": "색 조합",
+        "en": "Color Harmony"
+      },
+      "description": {
+        "ko": "상의와 하의의 색상 조화",
+        "en": "Color harmony between top and bottom"
+      },
+      "min": 1,
+      "max": 5,
+      "weight": 1.0
+    },
+    {
+      "id": "silhouette_balance",
+      "order": 2,
+      "display_name": {
+        "ko": "실루엣 균형",
+        "en": "Silhouette Balance"
+      },
+      "description": {
+        "ko": "전체적인 비율과 균형",
+        "en": "Overall proportion and balance"
+      },
+      "min": 1,
+      "max": 5,
+      "weight": 1.0
+    },
+    {
+      "id": "seasonal_fit",
+      "order": 3,
+      "display_name": {
+        "ko": "계절감",
+        "en": "Seasonal Fit"
+      },
+      "description": {
+        "ko": "계절에 맞는 느낌",
+        "en": "Seasonal appropriateness"
+      },
+      "min": 1,
+      "max": 5,
+      "weight": 0.8
+    },
+    {
+      "id": "comfort_expectation",
+      "order": 4,
+      "display_name": {
+        "ko": "편안함",
+        "en": "Comfort"
+      },
+      "description": {
+        "ko": "착용 시 예상되는 편안함",
+        "en": "Expected comfort when wearing"
+      },
+      "min": 1,
+      "max": 5,
+      "weight": 1.2
+    },
+    {
+      "id": "occasion_fit",
+      "order": 5,
+      "display_name": {
+        "ko": "상황 적합성",
+        "en": "Occasion Fit"
+      },
+      "description": {
+        "ko": "TPO (시간·장소·상황) 적합성",
+        "en": "TPO (Time, Place, Occasion) appropriateness"
+      },
+      "min": 1,
+      "max": 5,
+      "weight": 0.9
+    },
+    {
+      "id": "personal_satisfaction",
+      "order": 6,
+      "display_name": {
+        "ko": "개인 만족도",
+        "en": "Personal Satisfaction"
+      },
+      "description": {
+        "ko": "내가 느끼는 만족도",
+        "en": "My personal satisfaction"
+      },
+      "min": 1,
+      "max": 5,
+      "weight": 1.5
+    }
+  ]
+}

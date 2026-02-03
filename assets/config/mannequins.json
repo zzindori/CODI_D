@@ -1,0 +1,65 @@
+{
+  "version": "1.1",
+  "mannequins": [
+    {
+      "id": "male_slim",
+      "gender": "male",
+      "body_type": "slim",
+      "asset_path": "assets/mannequins/male_slim.png",
+      "display_name": {
+        "ko": "남성 · 슬림형",
+        "en": "Male · Slim"
+      },
+      "description": {
+        "ko": "전체적으로 마른 체형의 남성 실루엣",
+        "en": "Slender male body silhouette"
+      },
+      "order": 1
+    },
+    {
+      "id": "male_standard",
+      "gender": "male",
+      "body_type": "standard",
+      "asset_path": "assets/mannequins/male_standard.png",
+      "display_name": {
+        "ko": "남성 · 표준형",
+        "en": "Male · Standard"
+      },
+      "description": {
+        "ko": "일반적인 체형의 남성 실루엣",
+        "en": "Average male body silhouette"
+      },
+      "order": 2
+    },
+    {
+      "id": "female_slim",
+      "gender": "female",
+      "body_type": "slim",
+      "asset_path": "assets/mannequins/female_slim.png",
+      "display_name": {
+        "ko": "여성 · 슬림형",
+        "en": "Female · Slim"
+      },
+      "description": {
+        "ko": "날씬한 체형의 여성 실루엣",
+        "en": "Slender female body silhouette"
+      },
+      "order": 3
+    },
+    {
+      "id": "female_curvy",
+      "gender": "female",
+      "body_type": "curvy",
+      "asset_path": "assets/mannequins/female_curvy.png",
+      "display_name": {
+        "ko": "여성 · 곡선형",
+        "en": "Female · Curvy"
+      },
+      "description": {
+        "ko": "볼륨과 곡선이 강조된 여성 실루엣",
+        "en": "Curvy female body silhouette"
+      },
+      "order": 4
+    }
+  ]
+}
