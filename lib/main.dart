@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
 import 'services/storage_service.dart';
 import 'services/gemini_service.dart';
+import 'services/stability_service.dart';
 import 'services/config_service.dart';
 import 'providers/avatar_provider.dart';
 import 'providers/wardrobe_provider.dart';
@@ -10,9 +12,19 @@ import 'screens/home/home_screen.dart';
 import 'screens/evolve/evolve_screen.dart';
 import 'screens/wardrobe/wardrobe_screen.dart';
 import 'screens/codi/codi_screen.dart';
+import 'screens/coordination/coordination_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  assert(() {
+    debugPaintSizeEnabled = false;
+    debugPaintBaselinesEnabled = false;
+    debugPaintPointersEnabled = false;
+    debugPaintLayerBordersEnabled = false;
+    debugRepaintRainbowEnabled = false;
+    return true;
+  }());
 
   // ConfigService 초기화 (헌법 준수: 모든 표현 데이터 JSON 로드)
   await ConfigService.instance.initialize(locale: 'ko');
@@ -30,9 +42,14 @@ class MyApp extends StatelessWidget {
       'GEMINI_API_KEY',
       defaultValue: '',
     );
+    const stabilityApiKey = String.fromEnvironment(
+      'STABILITY_API_KEY',
+      defaultValue: '',
+    );
 
     final storageService = StorageService();
     final geminiService = GeminiService(apiKey: geminiApiKey);
+    final stabilityService = StabilityService(apiKey: stabilityApiKey);
 
     return MultiProvider(
       providers: [
@@ -40,12 +57,14 @@ class MyApp extends StatelessWidget {
           create: (_) => AvatarProvider(
             storage: storageService,
             gemini: geminiService,
+            stability: stabilityService,
           ),
         ),
         ChangeNotifierProvider(
           create: (_) => WardrobeProvider(
             storage: storageService,
             gemini: geminiService,
+            stability: stabilityService,
           ),
         ),
       ],
@@ -63,6 +82,7 @@ class MyApp extends StatelessWidget {
           '/evolve': (context) => const EvolveScreen(),
           '/wardrobe': (context) => const WardrobeScreen(),
           '/codi': (context) => const CodiScreen(),
+          '/coordination': (context) => const CoordinationScreen(),
         },
       ),
     );

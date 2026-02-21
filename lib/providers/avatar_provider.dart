@@ -1,9 +1,11 @@
+import 'dart:io';
 import 'package:flutter/foundation.dart';
 import '../models/my_avatar.dart';
 import '../models/body_measurements.dart';
 import '../models/avatar_stage.dart';
 import '../services/storage_service.dart';
 import '../services/gemini_service.dart';
+import '../services/stability_service.dart';
 import '../services/config_service.dart';
 
 /// MyAvatar 상태 관리 Provider
@@ -14,6 +16,7 @@ import '../services/config_service.dart';
 class AvatarProvider extends ChangeNotifier {
   final StorageService _storage;
   final GeminiService _gemini;
+  final StabilityService _stability;
 
   MyAvatar? _avatar;
   bool _isLoading = false;
@@ -22,8 +25,10 @@ class AvatarProvider extends ChangeNotifier {
   AvatarProvider({
     required StorageService storage,
     required GeminiService gemini,
+    required StabilityService stability,
   })  : _storage = storage,
-        _gemini = gemini {
+        _gemini = gemini,
+        _stability = stability {
     _loadAvatar();
   }
 
@@ -117,7 +122,7 @@ class AvatarProvider extends ChangeNotifier {
     try {
       debugPrint('[진화] 시작합니다.');
       
-      // Gemini로 실루엣 진화
+        // Stability 우선, 실패 시 Gemini fallback
       final mannequin =
           ConfigService.instance.getMannequinById(_avatar!.baseMannequinId);
       if (mannequin == null) {
@@ -132,7 +137,15 @@ class AvatarProvider extends ChangeNotifier {
       debugPrint('[진화] 참고사진 경로: $referencePath');
       debugPrint('[진화] 체형 정보: ${_avatar!.bodyMeasurements.bodyType}');
 
-      final evolvedImage = await _gemini.evolveAvatarSilhouette(
+      File? evolvedImage;
+
+      if (_stability.isConfigured) {
+        evolvedImage = await _stability.evolveAvatarSilhouette(
+          bodyType: _avatar!.bodyMeasurements.bodyType,
+        );
+      }
+
+      evolvedImage ??= await _gemini.evolveAvatarSilhouette(
         baseAvatarPath: mannequin.assetPath,
         referencePath: referencePath,
         bodyType: _avatar!.bodyMeasurements.bodyType,

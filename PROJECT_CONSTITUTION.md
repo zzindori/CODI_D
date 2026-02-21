@@ -126,26 +126,25 @@
 
 ## [5. AI 구현 원칙 (필수)]
 
-### 5-1. Gemini API 전용 사용
+### 5-1. AI API 사용 정책
 
-본 프로젝트의 모든 AI 기능은 **Google Gemini API**를 통해 구현한다.
+본 프로젝트의 AI 기능은 다음과 같이 구분하여 구현한다.
 
-**필수 사항:**
-- ✅ 이미지 생성/편집: Gemini API
-- ✅ 이미지 분석: Gemini API
-- ✅ 텍스트 생성/분석: Gemini API
-- ✅ 멀티모달 처리: Gemini API
+**텍스트/분석:**
+- ✅ Google Gemini API 전용
+
+**이미지 생성/편집:**
+- ✅ Stability AI API 사용 (현재 설정)
+- 타사 이미지 AI는 Stability AI로 통일
 
 **금지 사항:**
-- ❌ 타사 AI API 사용 (OpenAI, Anthropic, Stability AI 등)
-- ❌ 로컬 AI 모델 사용
-- ❌ 여러 AI 서비스 혼용
+- ❌ 텍스트 처리에 타사 AI 혼용 (Stability, OpenAI 등)
+- ❌ 여러 이미지 AI 서비스 혼용
 
 **이유:**
-1. 단일 API 통합으로 복잡도 최소화
+1. 각 도메인별 최적 서비스 선택
 2. 일관된 품질 및 스타일 유지
 3. 비용 관리 단순화
-4. Gemini 멀티모달 통합 기능 활용
 
 ────────────────────────────────
 

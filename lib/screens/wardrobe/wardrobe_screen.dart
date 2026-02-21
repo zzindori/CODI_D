@@ -18,7 +18,7 @@ class _WardrobeScreenState extends State<WardrobeScreen>
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 2, vsync: this);
+    _tabController = TabController(length: 4, vsync: this);
   }
 
   @override
@@ -40,6 +40,8 @@ class _WardrobeScreenState extends State<WardrobeScreen>
           tabs: const [
             Tab(text: '상의'),
             Tab(text: '하의'),
+            Tab(text: '신발'),
+            Tab(text: '악세사리'),
           ],
         ),
       ),
@@ -58,6 +60,8 @@ class _WardrobeScreenState extends State<WardrobeScreen>
             children: [
               _buildClothingList(context, provider, config, provider.tops),
               _buildClothingList(context, provider, config, provider.bottoms),
+              _buildClothingList(context, provider, config, provider.shoes),
+              _buildClothingList(context, provider, config, provider.accessories),
             ],
           );
         },
@@ -106,34 +110,91 @@ class _WardrobeScreenState extends State<WardrobeScreen>
   }
 
   void _showImageDialog(BuildContext context, dynamic item) {
-    final imagePath = item.extractedImagePath ?? item.originalImagePath;
+    final generatedImagePath = item.imagePath;
+    final sourceImagePath = item.sourceImagePath;
     
     showDialog(
       context: context,
-      builder: (ctx) => Dialog(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            AppBar(
-              title: Text(item.name),
-              automaticallyImplyLeading: false,
-              actions: [
-                IconButton(
-                  icon: const Icon(Icons.close),
-                  onPressed: () => Navigator.of(ctx).pop(),
+      builder: (ctx) => _ImageViewDialog(
+        itemName: item.name,
+        generatedImagePath: generatedImagePath,
+        sourceImagePath: sourceImagePath,
+      ),
+    );
+  }
+}
+
+class _ImageViewDialog extends StatefulWidget {
+  final String itemName;
+  final String generatedImagePath;
+  final String? sourceImagePath;
+
+  const _ImageViewDialog({
+    required this.itemName,
+    required this.generatedImagePath,
+    required this.sourceImagePath,
+  });
+
+  @override
+  State<_ImageViewDialog> createState() => _ImageViewDialogState();
+}
+
+class _ImageViewDialogState extends State<_ImageViewDialog> {
+  late bool showOriginal;
+
+  @override
+  void initState() {
+    super.initState();
+    showOriginal = false;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final displayPath = showOriginal ? widget.sourceImagePath : widget.generatedImagePath;
+    final displayLabel = showOriginal ? '원본' : '생성본';
+
+    return Dialog(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          AppBar(
+            title: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(widget.itemName),
+                Text(
+                  displayLabel,
+                  style: const TextStyle(fontSize: 12, fontWeight: FontWeight.normal),
                 ),
               ],
             ),
-            Flexible(
-              child: InteractiveViewer(
-                child: imagePath.startsWith('assets/')
-                    ? Image.asset(imagePath, fit: BoxFit.contain)
-                    : Image.file(File(imagePath), fit: BoxFit.contain),
+            automaticallyImplyLeading: false,
+            actions: [
+              if (widget.sourceImagePath != null)
+                TextButton(
+                  onPressed: () {
+                    setState(() {
+                      showOriginal = !showOriginal;
+                    });
+                  },
+                  child: Text(showOriginal ? '생성본' : '원본'),
+                ),
+              IconButton(
+                icon: const Icon(Icons.close),
+                onPressed: () => Navigator.of(context).pop(),
               ),
+            ],
+          ),
+          Flexible(
+            child: InteractiveViewer(
+              child: displayPath!.startsWith('assets/')
+                  ? Image.asset(displayPath, fit: BoxFit.contain)
+                  : Image.file(File(displayPath), fit: BoxFit.contain),
             ),
-            const SizedBox(height: 16),
-          ],
-        ),
+          ),
+          const SizedBox(height: 16),
+        ],
       ),
     );
   }
