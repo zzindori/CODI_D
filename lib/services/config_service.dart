@@ -159,7 +159,8 @@ class ConfigService {
       return key;
     }
 
-    final template = promptMap[key]?.toString() ?? key;
+    final rawTemplate = promptMap[key];
+    final template = _resolvePromptTemplate(rawTemplate) ?? key;
     if (params == null || params.isEmpty) {
       return template;
     }
@@ -169,6 +170,16 @@ class ConfigService {
       resolved = resolved.replaceAll('{$paramKey}', value);
     });
     return resolved;
+  }
+
+  String? _resolvePromptTemplate(dynamic value) {
+    if (value == null) return null;
+    if (value is String) return value;
+    if (value is List) {
+      final lines = value.map((entry) => entry.toString()).toList();
+      return lines.join('\n');
+    }
+    return value.toString();
   }
 
   /// 현재 로케일

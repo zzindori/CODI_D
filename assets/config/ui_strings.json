@@ -34,13 +34,13 @@
       "history_button": "코디 히스토리",
       "stat_clothes": "옷",
       "stat_codi": "코디",
-      "stat_evolution": "진화"
+      "stat_evolution": "분석"
     },
 
     "wardrobe": {
       "title": "옷장",
       "add_button": "옷 추가",
-      "empty": "옷이 없습니다",
+      "empty": "등록된 아이템이 없습니다",
       "name_label": "옷 이름",
       "type_label": "옷 타입",
       "pick_photo": "사진 선택",
@@ -48,7 +48,16 @@
       "processing": "추출 중...",
       "add_success": "옷이 추가되었습니다",
       "add_failed": "옷 추가에 실패했습니다",
-      "missing_fields": "이름, 타입, 사진을 모두 입력해주세요"
+      "missing_fields": "이름, 타입, 사진을 모두 입력해주세요",
+      "ai_analysis": "AI 분석 정보",
+      "item_info": "아이템 정보",
+      "color": "색상",
+      "material": "재질",
+      "pattern": "패턴",
+      "style": "스타일",
+      "season": "계절",
+      "occasion": "상황",
+      "registered_date": "등록일"
     },
 
     "codi": {

@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 
 import '../../providers/wardrobe_provider.dart';
 import '../../models/simple_clothing_item.dart';
+import '../../widgets/codi_styled_app_bar.dart';
 
 /// 코디 생성 화면 (v3.0)
 /// 
@@ -21,6 +22,7 @@ class CoordinationScreen extends StatefulWidget {
 
 class _CoordinationScreenState extends State<CoordinationScreen> {
   String? _selectedTopId;
+  String? _selectedOuterwearId;
   String? _selectedBottomId;
   String? _selectedShoesId;
   
@@ -29,7 +31,10 @@ class _CoordinationScreenState extends State<CoordinationScreen> {
   String? _errorMessage;
 
   Future<void> _generateCoordination() async {
-    if (_selectedTopId == null && _selectedBottomId == null && _selectedShoesId == null) {
+    if (_selectedTopId == null &&
+        _selectedOuterwearId == null &&
+        _selectedBottomId == null &&
+        _selectedShoesId == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('최소 한 개 이상의 옷을 선택해주세요')),
       );
@@ -47,6 +52,12 @@ class _CoordinationScreenState extends State<CoordinationScreen> {
 
       // 선택된 아이템 찾기
       final selectedItems = <SimpleClothingItem>[];
+      if (_selectedOuterwearId != null) {
+        final outerwear = items.firstWhere(
+          (item) => item.id == _selectedOuterwearId,
+        );
+        selectedItems.add(outerwear);
+      }
       if (_selectedTopId != null) {
         final top = items.firstWhere((item) => item.id == _selectedTopId);
         selectedItems.add(top);
@@ -82,31 +93,33 @@ class _CoordinationScreenState extends State<CoordinationScreen> {
   @override
   Widget build(BuildContext context) {
     final wardrobeProvider = context.watch<WardrobeProvider>();
-    final items = wardrobeProvider.simpleItems;
+    final tops = wardrobeProvider.simpleTopItems;
+    final outerwears = wardrobeProvider.simpleOuterwearItems;
+    final bottoms = wardrobeProvider.simpleBottomItems;
+    final shoes = wardrobeProvider.simpleShoeItems;
 
-    // 카테고리별 필터링
-    final tops = items.where((item) => 
-      item.itemType.toLowerCase().contains('top') || 
-      item.itemType.toLowerCase().contains('shirt') ||
-      item.itemType.toLowerCase().contains('jacket')
-    ).toList();
-    
-    final bottoms = items.where((item) => 
-      item.itemType.toLowerCase().contains('bottom') || 
-      item.itemType.toLowerCase().contains('pants') ||
-      item.itemType.toLowerCase().contains('skirt')
-    ).toList();
-    
-    final shoes = items.where((item) => 
-      item.itemType.toLowerCase().contains('shoes') || 
-      item.itemType.toLowerCase().contains('sneaker') ||
-      item.itemType.toLowerCase().contains('boot')
-    ).toList();
+    final colors = Theme.of(context).colorScheme;
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('AI 코디 생성'),
-        centerTitle: true,
+      appBar: CodiStyledAppBar(
+        title: 'AI 코디 생성',
+        actions: [
+          CodiAppBarAction(
+            tooltip: '드레스룸',
+            icon: Icons.checkroom,
+            onTap: () => Navigator.of(context).pushNamed('/wardrobe'),
+          ),
+          CodiAppBarAction(
+            tooltip: '사진분석등록',
+            icon: Icons.add_a_photo_outlined,
+            onTap: () => Navigator.of(context).pushNamed('/evolve'),
+          ),
+          CodiAppBarAction(
+            tooltip: '분석목록',
+            icon: Icons.auto_awesome,
+            onTap: () => Navigator.of(context).pushNamed('/analysis'),
+          ),
+        ],
       ),
       body: Column(
         children: [
@@ -124,6 +137,16 @@ class _CoordinationScreenState extends State<CoordinationScreen> {
                     ),
                     const SizedBox(height: 20),
                     
+                    // 외투 선택
+                    _buildCategorySelector(
+                      title: '외투',
+                      items: outerwears,
+                      selectedId: _selectedOuterwearId,
+                      onSelect: (id) =>
+                          setState(() => _selectedOuterwearId = id),
+                    ),
+                    const SizedBox(height: 16),
+
                     // 상의 선택
                     _buildCategorySelector(
                       title: '상의',
@@ -158,7 +181,7 @@ class _CoordinationScreenState extends State<CoordinationScreen> {
                       Container(
                         height: 400,
                         decoration: BoxDecoration(
-                          border: Border.all(color: Colors.grey),
+                          border: Border.all(color: colors.outline),
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: ClipRRect(
@@ -197,10 +220,10 @@ class _CoordinationScreenState extends State<CoordinationScreen> {
           Container(
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: colors.surface,
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.1),
+                  color: colors.shadow.withValues(alpha: 0.18),
                   blurRadius: 4,
                   offset: const Offset(0, -2),
                 ),
@@ -234,6 +257,8 @@ class _CoordinationScreenState extends State<CoordinationScreen> {
     required String? selectedId,
     required ValueChanged<String?> onSelect,
   }) {
+    final colors = Theme.of(context).colorScheme;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -246,7 +271,7 @@ class _CoordinationScreenState extends State<CoordinationScreen> {
             const SizedBox(width: 8),
             Text(
               '(${items.length})',
-              style: TextStyle(fontSize: 14, color: Colors.grey[600]),
+                style: TextStyle(fontSize: 14, color: colors.onSurfaceVariant),
             ),
           ],
         ),
@@ -255,13 +280,13 @@ class _CoordinationScreenState extends State<CoordinationScreen> {
           Container(
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
-              color: Colors.grey[100],
+              color: colors.surfaceContainerHighest,
               borderRadius: BorderRadius.circular(8),
             ),
-            child: const Center(
+            child: Center(
               child: Text(
                 '해당 카테고리의 옷이 없습니다',
-                style: TextStyle(color: Colors.grey),
+                style: TextStyle(color: colors.onSurfaceVariant),
               ),
             ),
           )
@@ -282,7 +307,7 @@ class _CoordinationScreenState extends State<CoordinationScreen> {
                     margin: const EdgeInsets.only(right: 8),
                     decoration: BoxDecoration(
                       border: Border.all(
-                        color: isSelected ? Colors.blue : Colors.grey,
+                        color: isSelected ? colors.primary : colors.outline,
                         width: isSelected ? 3 : 1,
                       ),
                       borderRadius: BorderRadius.circular(8),
@@ -298,7 +323,7 @@ class _CoordinationScreenState extends State<CoordinationScreen> {
                           ),
                           if (isSelected)
                             Container(
-                              color: Colors.blue.withValues(alpha: 0.3),
+                              color: colors.primary.withValues(alpha: 0.26),
                               child: const Icon(
                                 Icons.check_circle,
                                 color: Colors.white,

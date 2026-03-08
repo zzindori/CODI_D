@@ -1,0 +1,152 @@
+{
+  "clothing_types": {
+    "denim_jacket": {
+      "en": "Denim Jacket",
+      "ko": "데님 자켓"
+    },
+    "cotton_tshirt": {
+      "en": "Cotton T-shirt",
+      "ko": "코튼 티셔츠"
+    },
+    "wool_sweater": {
+      "en": "Wool Sweater",
+      "ko": "울 스웨터"
+    },
+    "hoodie": {
+      "en": "Hoodie",
+      "ko": "후디"
+    },
+    "polo_shirt": {
+      "en": "Polo Shirt",
+      "ko": "폴로 셔츠"
+    },
+    "dress_shirt": {
+      "en": "Dress Shirt",
+      "ko": "드레스 셔츠"
+    },
+    "button_down_shirt": {
+      "en": "Button-down Shirt",
+      "ko": "버튼다운 셔츠"
+    },
+    "leather_jacket": {
+      "en": "Leather Jacket",
+      "ko": "레더 자켓"
+    },
+    "cargo_pants": {
+      "en": "Cargo Pants",
+      "ko": "카고 팬츠"
+    },
+    "jeans": {
+      "en": "Jeans",
+      "ko": "진"
+    },
+    "chinos": {
+      "en": "Chinos",
+      "ko": "치노"
+    },
+    "leather_boots": {
+      "en": "Leather Boots",
+      "ko": "레더 부츠"
+    },
+    "sneakers": {
+      "en": "Sneakers",
+      "ko": "스니커즈"
+    },
+    "loafers": {
+      "en": "Loafers",
+      "ko": "로퍼"
+    },
+    "fedora": {
+      "en": "Fedora",
+      "ko": "페도라"
+    },
+    "beanie": {
+      "en": "Beanie",
+      "ko": "비니"
+    },
+    "baseball_cap": {
+      "en": "Baseball Cap",
+      "ko": "야구모"
+    },
+    "sunglasses": {
+      "en": "Sunglasses",
+      "ko": "선글라스"
+    },
+    "scarf": {
+      "en": "Scarf",
+      "ko": "스카프"
+    },
+    "watch": {
+      "en": "Watch",
+      "ko": "시계"
+    },
+    "belt": {
+      "en": "Belt",
+      "ko": "벨트"
+    },
+    "backpack": {
+      "en": "Backpack",
+      "ko": "백팩"
+    },
+    "crossbody_bag": {
+      "en": "Crossbody Bag",
+      "ko": "크로스백"
+    },
+    "tote_bag": {
+      "en": "Tote Bag",
+      "ko": "토트백"
+    },
+    "leather_gloves": {
+      "en": "Leather Gloves",
+      "ko": "레더 장갑"
+    },
+    "winter_coat": {
+      "en": "Winter Coat",
+      "ko": "겨울 코트"
+    },
+    "puffer_jacket": {
+      "en": "Puffer Jacket",
+      "ko": "패딩 자켓"
+    },
+    "blazer": {
+      "en": "Blazer",
+      "ko": "블레이저"
+    },
+    "cardigan": {
+      "en": "Cardigan",
+      "ko": "카디건"
+    },
+    "shorts": {
+      "en": "Shorts",
+      "ko": "반바지"
+    },
+    "skirt": {
+      "en": "Skirt",
+      "ko": "스커트"
+    },
+    "dress": {
+      "en": "Dress",
+      "ko": "드레스"
+    },
+    "jumpsuit": {
+      "en": "Jumpsuit",
+      "ko": "점프수트"
+    },
+    "tank_top": {
+      "en": "Tank Top",
+      "ko": "탱크탑"
+    },
+    "long_sleeve_shirt": {
+      "en": "Long Sleeve Shirt",
+      "ko": "긴팔 셔츠"
+    },
+    "sweatshirt": {
+      "en": "Sweatshirt",
+      "ko": "스웨터셔츠"
+    },
+    "track_jacket": {
+      "en": "Track Jacket",
+      "ko": "트랙 자켓"
+    }
+  }
+}

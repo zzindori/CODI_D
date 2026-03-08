@@ -12,6 +12,7 @@ CodiRecord _$CodiRecordFromJson(Map<String, dynamic> json) => CodiRecord(
       ? null
       : DateTime.parse(json['createdAt'] as String),
   topId: json['topId'] as String,
+  outerwearId: json['outerwearId'] as String?,
   bottomId: json['bottomId'] as String,
   composedImagePath: json['composedImagePath'] as String,
   score: CodiScore.fromJson(json['score'] as Map<String, dynamic>),
@@ -27,6 +28,7 @@ Map<String, dynamic> _$CodiRecordToJson(CodiRecord instance) =>
       'id': instance.id,
       'createdAt': instance.createdAt.toIso8601String(),
       'topId': instance.topId,
+      'outerwearId': instance.outerwearId,
       'bottomId': instance.bottomId,
       'composedImagePath': instance.composedImagePath,
       'score': instance.score,

@@ -1,15 +1,23 @@
 {
-  "version": "3.0",
+  "version": "3.5",
   "prompts": {
-    "analyze_clothing_item_simple": "Analyze this clothing item photo and return ONLY raw JSON (no markdown, no code blocks, no explanation).\n\n{\n  \"itemType\": \"jacket|shirt|pants|skirt|dress|shoes|accessory|etc\",\n  \"description\": \"Brief visual description (color, style, material) - max 20 words\",\n  \"color\": \"Primary color name\",\n  \"colorHex\": \"#hexcode\",\n  \"style\": \"casual|formal|sporty|vintage|modern|bohemian|etc\",\n  \"season\": [\"spring\", \"summer\", \"fall\", \"winter\"],\n  \"occasion\": [\"everyday\", \"business\", \"formal\", \"sportswear\", \"outdoor\"]\n}\n\nCRITICAL:\n- Focus ONLY on the main clothing item visible\n- Keep description under 20 words\n- Return raw JSON object directly (do NOT wrap in ```json```)\n- No markdown formatting, no code blocks\n- Just the pure JSON object starting with { and ending with }",
-
-    "analyze_scene_items": "You are analyzing one full outfit photo (do NOT crop). Detect all visible fashion items and return ONLY raw JSON.\n\nReturn this exact structure:\n{\n  \"summary\": \"One-sentence summary of the outfit scene (max 20 words)\",\n  \"items\": [\n    {\n      \"category\": \"top|bottom|hat|shoes|accessory\",\n      \"label\": \"Korean short label (예: 티셔츠, 치마, 스니커즈, 볼캡)\",\n      \"description\": \"Short visual description (max 15 words)\"\n    }\n  ]\n}\n\nRules:\n- Use the full image context\n- Include only clearly visible items\n- If a category is absent, do not add it\n- Return strict raw JSON only\n- No markdown, no code blocks, no explanation",
-
-    "recommend_coordination": "Given these clothing items, suggest 3 best outfit combinations.\n\nAvailable items:\n{items_list}\n\nReturn ONLY JSON:\n{\n  \"combinations\": [\n    {\n      \"name\": \"Business Casual\",\n      \"itemIds\": [\"item_id_1\", \"item_id_2\", \"item_id_3\"],\n      \"reason\": \"Why this combination works (max 30 words)\",\n      \"occasion\": \"office|meeting|casual|formal|date|outdoor|etc\"\n    }\n  ]\n}\n\nRules:\n- Each combination must have at least top + bottom (+ shoes if available)\n- Consider color harmony and style compatibility\n- Return strict JSON only, no markdown, no explanation",
-
-    "generate_coordination_prompt": "Create a detailed Stability AI prompt for generating a mannequin outfit photo.\n\nSelected items:\nTop: {top_description}\nBottom: {bottom_description}\nShoes: {shoes_description}\n\nGenerate a prompt that produces a professional fashion catalog image showing these items coordinated together on a faceless mannequin.\n\nIMPORTANT:\n- Describe each item's key visual features (color, material, style)\n- Specify: front view, standing straight, arms at sides, white background, studio lighting\n- Keep under 150 words\n- Return ONLY the prompt text (no JSON, no explanation, no quotes)\n\nExample output:\nProfessional fashion photograph showing charcoal gray wool blazer with notched lapel and two buttons, navy blue slim-fit dress pants with flat front, and brown leather oxford shoes coordinated together on a faceless mannequin, front view, standing straight with arms naturally at sides, clean pure white seamless background, soft professional studio lighting, catalog quality, sharp focus, product photography style",
-
-    "evolve_avatar": "You are helping create a simple body reference for clothing coordination decisions.\n\nCRITICAL RULES:\n1. Keep the base mannequin style completely\n2. Make MINIMAL changes - only slight silhouette adjustments\n3. Maintain the same pose, background, and overall structure\n4. Body type reference: {body_type}\n5. If uncertain, prefer NO change over wrong change\n\nTask: Adjust the base mannequin's silhouette VERY SLIGHTLY toward the reference photo's proportions.\nFocus on: shoulder width, waist-hip ratio, overall body shape balance.\n\nOUTPUT REQUIREMENT:\n- Return ONLY a PNG image (no text).\n- Do NOT include explanations or commentary.\n\nGenerate the adjusted image maintaining the mannequin's visual style."
+    "extraction_prompt_base_ko": [
+      "너는 패션 아이템 분리 전문가다.",
+      "업로드 이미지에서 실제로 보이는 옷/신발/모자/액세서리만 추출한다. 새로 만들기, 상상 보완, 스타일 변경은 금지한다.",
+      "모든 아이템은 반드시 완전히 펼친 상태에서 절대 잘리면 안되며, 사람 실루엣/착용 상태/마네킹은 금지한다.",
+      "캔버스를 먼저 정확히 2열 x 3행으로 고정 분할한다. 모든 열 너비와 행 높이는 동일해야 하며 6개 셀은 동일 크기여야 한다.",
+      "각 셀은 전체 캔버스 면적의 정확히 1/6을 차지해야 한다. 아이템 형태 때문에 행/열 크기를 절대 변경하지 않는다.",
+      "각 셀에는 최대 1개 아이템만 중앙 배치하고, 셀 경계를 넘거나 아이템끼리 겹치지 않는다.",
+      "그리드 선은 실제로 그리지 않는다. 보이지 않는 가이드 그리드 기준으로만 배치한다. 셀 사이에는 동일한 흰색 여백(가터)을 유지해 분할 경계가 명확해야 한다.",
+      "배경은 완전한 순백색(#FFFFFF) 단색만 허용한다. 그라데이션/그림자/질감/바닥/벽/배경 오브젝트는 금지한다.",
+      "텍스트/숫자/로고/설명 문구 추가 금지.",
+      "아이템이 6개를 초과하면 앞의 6개만 사용하고, 부족하면 빈 셀로 둔다. 빈 셀을 임의 아이템으로 채우지 않는다.",
+      "캔버스 비율은 변경하지 않는다."
+    ],
+    "extraction_prompt_with_labels_ko": "{base}\n추출 대상 참고: {labels}",
+    "analysis_detail_en_template": "Detected {base_text} in category {category}, with {detail_text}. Styling assessment: balanced silhouette and practical coordination value for outfit composition.",
+    "analysis_detail_ko_template": "{base_text}. 상세 해설: {detail_text}. 평가: 실루엣 균형과 코디 활용성이 무난해 조합에 사용하기 좋습니다.",
+    "analyze_scene_items_en": "Analyze this full-body outfit photo and extract visible clothing items for wardrobe separation. Return ONLY valid JSON object (no markdown, no extra text) using this exact schema: {\"summary\":\"outfit analysis summary\",\"items\":[{\"category\":\"top|outerwear|bottom|hat|shoes|accessory\",\"label\":\"short english name\",\"label_key\":\"snake_case\",\"label_en\":\"short english name\",\"label_ko\":\"short korean name\",\"bounding_box\":{\"x\":0.0,\"y\":0.0,\"width\":0.0,\"height\":0.0},\"description\":\"detailed english explanation with styling assessment\",\"description_ko\":\"상세 한글 해설 + 스타일 평가\",\"color\":\"keyword\",\"colorHex\":\"#RRGGBB\",\"material\":\"keyword\",\"pattern\":\"keyword\",\"style\":\"casual|formal|sport|street|minimal|vintage|classic|chic|unknown\",\"season\":[\"봄|여름|가을|겨울\"],\"occasion\":[\"캐주얼|출근|데이트|파티|야외|여행\"]}]}. Bounding box rules: bounding_box is required for every item and values must be normalized floats in [0.0,1.0]. bounding_box must represent the full grid CELL region containing the item (including white background), not a tight garment contour. Description rules: description and description_ko must be 1-2 detailed sentences each, include visible features + brief styling assessment, no fluff, no repetition. Detect layered garments separately (e.g. jacket and inner shirt as two items). Keep category strictly one of top,outerwear,bottom,hat,shoes,accessory. Never output null; use \"unknown\" or []. If nothing valid is visible, return {\"summary\":\"no visible fashion items\",\"items\":[] }."
   }
 }
 

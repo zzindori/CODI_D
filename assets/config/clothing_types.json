@@ -11,8 +11,17 @@
       "prompt_token": "top"
     },
     {
-      "id": "bottom",
+      "id": "outerwear",
       "order": 2,
+      "display_name": {
+        "ko": "외투",
+        "en": "Outerwear"
+      },
+      "prompt_token": "outerwear"
+    },
+    {
+      "id": "bottom",
+      "order": 3,
       "display_name": {
         "ko": "하의",
         "en": "Bottom"

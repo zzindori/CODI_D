@@ -4,6 +4,7 @@ import '../../models/body_measurements.dart';
 import '../../models/mannequin_config.dart';
 import '../../providers/avatar_provider.dart';
 import '../../services/config_service.dart';
+import '../../widgets/codi_styled_app_bar.dart';
 
 /// Stage-0: 마네킹 선택 및 신체 정보 입력 화면
 class MannequinSelectionScreen extends StatefulWidget {
@@ -117,53 +118,61 @@ class _MannequinSelectionScreenState extends State<MannequinSelectionScreen> {
   Widget build(BuildContext context) {
     final config = ConfigService.instance;
     final mannequins = config.mannequins;
+    final colors = Theme.of(context).colorScheme;
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(_isEditMode 
-          ? '${ConfigService.instance.getString('strings.setup.title')} (수정)'
-          : ConfigService.instance.getString('strings.setup.title')),
-        centerTitle: true,
+      appBar: CodiStyledAppBar(
+        title: ConfigService.instance.getString('strings.setup.title'),
+        actions: [
+          CodiAppBarAction(
+            tooltip: '옷장',
+            icon: Icons.checkroom,
+            onTap: () => Navigator.of(context).pushNamed('/wardrobe'),
+          ),
+          CodiAppBarAction(
+            tooltip: '사진분석등록',
+            icon: Icons.add_a_photo_outlined,
+            onTap: () => Navigator.of(context).pushNamed('/evolve'),
+          ),
+          CodiAppBarAction(
+            tooltip: '분석목록',
+            icon: Icons.auto_awesome,
+            onTap: () => Navigator.of(context).pushNamed('/analysis'),
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Text(
-              config.getString('strings.setup.step1_title'),
-              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            _buildSectionCard(
+              context,
+              title: config.getString('strings.setup.step1_title'),
+              description: config.getString('strings.setup.step1_description'),
+              child: _buildMannequinSelector(mannequins),
             ),
-            const SizedBox(height: 8),
-            Text(
-              config.getString('strings.setup.step1_description'),
-              style: const TextStyle(color: Colors.grey),
-            ),
-            const SizedBox(height: 16),
-            _buildMannequinSelector(mannequins),
             const SizedBox(height: 32),
-            Text(
-              config.getString('strings.setup.step2_title'),
-              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            _buildSectionCard(
+              context,
+              title: config.getString('strings.setup.step2_title'),
+              description: config.getString('strings.setup.step2_description'),
+              child: _buildBodyMeasurementForm(),
             ),
-            const SizedBox(height: 8),
-            Text(
-              config.getString('strings.setup.step2_description'),
-              style: const TextStyle(color: Colors.grey),
-            ),
-            const SizedBox(height: 16),
-            _buildBodyMeasurementForm(),
             const SizedBox(height: 32),
-            ElevatedButton(
+            FilledButton(
               onPressed: _createAvatar,
-              style: ElevatedButton.styleFrom(
-                padding: const EdgeInsets.all(16),
+              style: FilledButton.styleFrom(
+                backgroundColor: colors.primary,
+                foregroundColor: colors.onPrimary,
+                padding: const EdgeInsets.symmetric(vertical: 16),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
               ),
               child: Text(
-                _isEditMode
-                  ? '수정'
-                  : config.getString('strings.setup.create_button'),
-                style: const TextStyle(fontSize: 16),
+                _isEditMode ? '수정' : config.getString('strings.setup.create_button'),
+                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
               ),
             ),
             SafeArea(
@@ -178,6 +187,7 @@ class _MannequinSelectionScreenState extends State<MannequinSelectionScreen> {
 
   Widget _buildMannequinSelector(List<MannequinConfig> mannequins) {
     final config = ConfigService.instance;
+    final colors = Theme.of(context).colorScheme;
 
     return SizedBox(
       height: 200,
@@ -198,9 +208,12 @@ class _MannequinSelectionScreenState extends State<MannequinSelectionScreen> {
               width: 150,
               margin: const EdgeInsets.only(right: 16),
               decoration: BoxDecoration(
+                color: isSelected
+                    ? colors.primaryContainer.withValues(alpha: 0.35)
+                    : colors.surface,
                 border: Border.all(
-                  color: isSelected ? Colors.blue : Colors.grey,
-                  width: isSelected ? 3 : 1,
+                  color: isSelected ? colors.primary : colors.outlineVariant,
+                  width: isSelected ? 2 : 1,
                 ),
                 borderRadius: BorderRadius.circular(12),
               ),
@@ -216,8 +229,12 @@ class _MannequinSelectionScreenState extends State<MannequinSelectionScreen> {
                         fit: BoxFit.contain,
                         errorBuilder: (context, error, stackTrace) {
                           return Container(
-                            color: Colors.grey[300],
-                            child: const Icon(Icons.person, size: 60),
+                            color: colors.surfaceContainerHighest,
+                            child: Icon(
+                              Icons.person,
+                              size: 60,
+                              color: colors.onSurfaceVariant,
+                            ),
                           );
                         },
                       ),
@@ -229,7 +246,7 @@ class _MannequinSelectionScreenState extends State<MannequinSelectionScreen> {
                     style: TextStyle(
                       fontWeight:
                           isSelected ? FontWeight.bold : FontWeight.normal,
-                      color: isSelected ? Colors.blue : Colors.black,
+                      color: isSelected ? colors.primary : colors.onSurface,
                     ),
                     textAlign: TextAlign.center,
                   ),
@@ -238,7 +255,10 @@ class _MannequinSelectionScreenState extends State<MannequinSelectionScreen> {
                     padding: const EdgeInsets.symmetric(horizontal: 8.0),
                     child: Text(
                       mannequin.getDescription(config.locale),
-                      style: const TextStyle(fontSize: 10, color: Colors.grey),
+                      style: TextStyle(
+                        fontSize: 10,
+                        color: colors.onSurfaceVariant,
+                      ),
                       textAlign: TextAlign.center,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
@@ -322,14 +342,29 @@ class _MannequinSelectionScreenState extends State<MannequinSelectionScreen> {
     required bool requiredField,
   }) {
     final config = ConfigService.instance;
+    final colors = Theme.of(context).colorScheme;
 
     return TextFormField(
       controller: controller,
       keyboardType: TextInputType.number,
       decoration: InputDecoration(
+        filled: true,
+        fillColor: colors.surfaceContainerHigh,
         labelText: label,
-        prefixIcon: Icon(icon),
-        border: const OutlineInputBorder(),
+        labelStyle: TextStyle(color: colors.onSurfaceVariant),
+        prefixIcon: Icon(icon, color: colors.onSurfaceVariant),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide(color: colors.outlineVariant),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide(color: colors.outlineVariant),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide(color: colors.primary, width: 1.4),
+        ),
       ),
       validator: (value) {
         if (requiredField && (value == null || value.isEmpty)) {
@@ -349,5 +384,46 @@ class _MannequinSelectionScreenState extends State<MannequinSelectionScreen> {
   double? _parseOptionalDouble(String value) {
     if (value.trim().isEmpty) return null;
     return double.tryParse(value);
+  }
+
+  Widget _buildSectionCard(
+    BuildContext context, {
+    required String title,
+    required String description,
+    required Widget child,
+  }) {
+    final colors = Theme.of(context).colorScheme;
+    return Container(
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(
+        color: colors.surfaceContainerLowest,
+        borderRadius: BorderRadius.circular(14),
+        border: Border.all(color: colors.outlineVariant),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            title,
+            style: TextStyle(
+              fontSize: 17,
+              fontWeight: FontWeight.w800,
+              color: colors.onSurface,
+            ),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            description,
+            style: TextStyle(
+              fontSize: 13,
+              color: colors.onSurfaceVariant,
+              height: 1.35,
+            ),
+          ),
+          const SizedBox(height: 14),
+          child,
+        ],
+      ),
+    );
   }
 }

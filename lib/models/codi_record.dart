@@ -12,6 +12,9 @@ class CodiRecord {
   /// 상의 ID
   final String topId;
 
+  /// 외투 ID
+  final String? outerwearId;
+
   /// 하의 ID
   final String bottomId;
 
@@ -34,6 +37,7 @@ class CodiRecord {
     required this.id,
     DateTime? createdAt,
     required this.topId,
+    this.outerwearId,
     required this.bottomId,
     required this.composedImagePath,
     required this.score,
@@ -57,6 +61,7 @@ class CodiRecord {
       id: id,
       createdAt: createdAt,
       topId: topId,
+      outerwearId: outerwearId,
       bottomId: bottomId,
       composedImagePath: composedImagePath,
       score: score ?? this.score,
